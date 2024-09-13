@@ -1,6 +1,6 @@
 {
-    "name": "PWA Hello World",
-    "short_name": "HelloWorld",
+    "name": "PWA Wedding App",
+    "short_name": "WeddingApp",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#ffffff",

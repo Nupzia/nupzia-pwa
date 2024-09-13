@@ -1,19 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#2f3ba2" />
-    <title>PWA Hello World</title>
-    <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./styles.css">
-    <script defer src="./app.js"></script>
+    <title>Wedding App</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Enlace a los estilos -->
 </head>
 
 <body>
-    <h1>Hello World! This is a PWA</h1>
-    <p>This is a simple Progressive Web App example.</p>
+    <header>
+        <h1>Si has llegado hasta aquí, es que nos hace ilusión compartir este día contigo</h1>
+
+        <img src="ruta-del-logo.png" alt="Logo de la boda" class="logo">
+
+        <h2>El amor, si se cuida, crece</h2>
+    </header>
+
+    <main>
+        <section id="foto">
+            <!-- Espacio para la foto de los novios -->
+            <img src="assets/foto-ernesto-genesis.jpg" alt="Foto de Génesis y Ernesto" style="max-width: 100%; height: auto;">
+        </section>
+
+        <section id="confirmacion">
+            <!-- Botón para confirmar asistencia -->
+            <button onclick="location.href='#formulario'">Confirmar Asistencia</button>
+        </section>
+
+        <section id="informacion-evento">
+            <h3>Información del Evento</h3>
+            <p><strong>Lugar:</strong> Palas Pineda</p>
+            <p><strong>Fecha:</strong> 20 de septiembre de 2025</p>
+            <p><strong>Inicio de la ceremonia:</strong> 12:00</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>¡No se te olvide llenar el formulario!</p>
+    </footer>
+
+    <!-- Sección para el formulario de confirmación de asistencia -->
+    <section id="formulario">
+        <h3>Confirmar Asistencia</h3>
+        <form action="#" method="POST">
+            <label for="nombre">Nombre:</label>
+            <input type="text" id="nombre" name="nombre" required>
+
+            <label for="email">Correo Electrónico:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="asistencia">¿Asistirás?</label>
+            <select id="asistencia" name="asistencia" required>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+            </select>
+
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
 </body>
 
 </html>
