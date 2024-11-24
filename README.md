@@ -1,3 +1,3 @@
-# PWA Wedding App
+# Nupzia PWA
 
 PWA to use as wedding invitations

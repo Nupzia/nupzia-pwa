@@ -1,6 +1,6 @@
 {
-    "name": "PWA Wedding App",
-    "short_name": "WeddingApp",
+    "name": "Nupzia",
+    "short_name": "Nupzia",
     "start_url": "./index.html",
     "display": "standalone",
     "background_color": "#ffffff",
