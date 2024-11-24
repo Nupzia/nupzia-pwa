@@ -45,7 +45,8 @@
     <!-- Sección para el formulario de confirmación de asistencia -->
     <section id="formulario">
         <h3>Confirmar Asistencia</h3>
-        <form id="notionForm" action="https://nupzia-backend.vercel.app/api/submit" method="POST">
+        <form id="notionForm" action="https://nupzia.vercel.app/api/submit" method="POST">
+        <!-- <form id="notionForm" action="http://localhost:3000/api/submit" method="POST"> -->
             <label for="telefono">Teléfono de Contacto (con código de país):</label>
             <input type="tel" id="telefono" name="telefono" required pattern="^\+\d{1,4}\d{7,15}$"
                 placeholder="+1234567890"
@@ -98,7 +99,8 @@
             }
 
             try {
-                const response = await fetch('https://nupzia-backend.vercel.app/api/submit', {
+                const response = await fetch('https://nupzia.vercel.app/api/submit', {
+                // const response = await fetch('http://localhost:3000/api/submit', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',
