@@ -4,8 +4,19 @@ export default async function handler(req, res) {
 
     try {
 
-        // Handle CORS if your frontend is hosted on a different domain
-        res.setHeader('Access-Control-Allow-Origin', '*'); // Replace '*' with your frontend domain if needed
+        const allowedOrigins = process.env.NODE_ENV === 'production'
+            ? ['https://nupzia.vercel.app']
+            : ['http://localhost:3000'];
+
+        const origin = req.headers.origin;
+
+        if (!allowedOrigins.includes(origin)) {
+            return res.status(403).json({
+                error: 'CORS policy does not allow access from this origin.'
+            });
+        }
+
+        res.setHeader('Access-Control-Allow-Origin', origin);
         res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
         res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
