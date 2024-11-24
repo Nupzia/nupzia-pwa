@@ -47,6 +47,15 @@ export default async function handler(req, res) {
             });
         }
 
+        // Validate asistencia
+        const validValues = ['si', 'no'];
+        if (!asistencia || !validValues.includes(asistencia.toLowerCase().trim())) {
+            return res.status(400).json({
+                success: false,
+                message: 'El campo asistencia debe ser "si" o "no".',
+            });
+        }
+
         // Access environment variables
         const NOTION_TOKEN = process.env.NOTION_TOKEN;
         const DATABASE_ID = process.env.DATABASE_ID;
@@ -82,7 +91,7 @@ export default async function handler(req, res) {
             }
 
             const pageId = results[0].id;
-            const confirmValue = asistencia.toLowerCase() === 'si';
+            const confirmValue = asistencia.toLowerCase().trim() === 'si';
 
             // Update the "Confirmado" field in Notion
             await axios.patch(

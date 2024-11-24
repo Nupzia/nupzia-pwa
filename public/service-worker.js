@@ -1,39 +1,52 @@
-const CACHE_NAME = 'nupzia-cache-v1';
+const CACHE_NAME = `nupzia-cache-${process.env.VERCEL_TIMESTAMP || 'default'}`; // Cambiar la versión en cada despliegue
 const urlsToCache = [
-  '/',
-  '/index.html',
-  '/styles.css',
-  '/script.js',
+  '/',             // Página principal
+  '/index.html',   // HTML
+  '/styles.css',   // CSS (actualiza con nombres con hashes si usas Webpack/Vite)
+  '/script.js',    // JS
+  '/assets/logo.jpg' // Otros recursos estáticos
 ];
 
-// Install the service worker and cache resources
+// Instalación del Service Worker: Cache Busting
 self.addEventListener('install', (event) => {
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      console.log('Opened cache');
+      console.log('Opened cache:', CACHE_NAME);
       return cache.addAll(urlsToCache);
     })
   );
 });
 
-// Intercept fetch requests
+// Interceptar solicitudes: Stale-While-Revalidate
 self.addEventListener('fetch', (event) => {
   event.respondWith(
-    caches.match(event.request).then((response) => {
-      // Return cached resource or fetch from the network
-      return response || fetch(event.request);
+    caches.open(CACHE_NAME).then(async (cache) => {
+      const cachedResponse = await cache.match(event.request);
+      const networkResponsePromise = fetch(event.request);
+
+      // Actualiza el caché en segundo plano
+      networkResponsePromise.then((networkResponse) => {
+        if (networkResponse && networkResponse.status === 200) {
+          cache.put(event.request, networkResponse.clone());
+        }
+      });
+
+      // Devuelve el recurso en caché o espera por la respuesta de red
+      return cachedResponse || networkResponsePromise;
     })
   );
 });
 
-// Activate the service worker and clean up old caches
+// Activación del Service Worker: Limpieza de Cachés Antiguos
 self.addEventListener('activate', (event) => {
   const cacheWhitelist = [CACHE_NAME];
+
   event.waitUntil(
     caches.keys().then((cacheNames) => {
       return Promise.all(
         cacheNames.map((cacheName) => {
           if (!cacheWhitelist.includes(cacheName)) {
+            console.log('Deleting old cache:', cacheName);
             return caches.delete(cacheName);
           }
         })
@@ -41,3 +54,4 @@ self.addEventListener('activate', (event) => {
     })
   );
 });
+

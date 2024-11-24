@@ -5,6 +5,11 @@ if ('serviceWorker' in navigator) {
                 console.log('Service Worker registered with scope:', registration.scope);
             }).catch(err => {
                 console.error('Service Worker registration failed:', err);
+                res.status(500).json({
+                    success: false,
+                    message: 'Service Worker registration failed:',
+                    error: err.message,
+                });
             });
     });
 }
