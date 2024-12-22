@@ -93,3 +93,82 @@ footer {
     background-color: #2f3ba2;
     color: white;
 }
+
+#detalles-asistencia {
+    margin-top: 20px;
+}
+
+.persona-details {
+    background-color: #fff;
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    width: 90%;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.persona-details h4 {
+    color: #2f3ba2;
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.nombre-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 15px;
+}
+
+.kid-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.kid-checkbox input[type="checkbox"] {
+    width: auto;
+}
+
+.menu-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-container textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    resize: vertical;
+}
+
+.menu-nino {
+    margin-top: 10px;
+}
+
+.menu-nino select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Add a back button style */
+.back-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: white;
+    color: #2f3ba2;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-top: 20px;
+}
+
+.back-button:hover {
+    background-color: #f0f0f0;
+}

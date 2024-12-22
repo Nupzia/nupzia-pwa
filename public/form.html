@@ -16,7 +16,7 @@
     </header>
 
     <main>
-        <section id="form">
+        <section id="formulario">
             <h3>Confirmar Asistencia</h3>
             <form id="notionForm" action="https://nupzia.vercel.app/api/submit" method="POST">
                 <label for="telefono">Teléfono de Contacto (con código de país):</label>
@@ -30,6 +30,15 @@
                     <option value="no">No</option>
                 </select>
 
+                <div id="detalles-asistencia" style="display: none;">
+                    <label for="num-personas">Número de personas:</label>
+                    <input type="number" id="num-personas" name="num_personas" min="1" max="10" required>
+
+                    <div id="personas-container">
+                        <!-- Dynamic fields will be inserted here -->
+                    </div>
+                </div>
+
                 <button type="submit">Enviar</button>
             </form>
         </section>
@@ -38,6 +47,10 @@
     <script>
         // Auto-format phone number input field
         const telefonoInput = document.getElementById('telefono');
+        const asistenciaSelect = document.getElementById('asistencia');
+        const detallesAsistencia = document.getElementById('detalles-asistencia');
+        const numPersonasInput = document.getElementById('num-personas');
+        const personasContainer = document.getElementById('personas-container');
 
         telefonoInput.addEventListener('input', () => {
             // Remove any non-numeric characters except the leading "+"
@@ -51,6 +64,67 @@
             }
 
             telefonoInput.value = value;
+        });
+
+        // Show/hide additional fields based on attendance
+        asistenciaSelect.addEventListener('change', () => {
+            detallesAsistencia.style.display = asistenciaSelect.value === 'si' ? 'block' : 'none';
+            if (asistenciaSelect.value === 'no') {
+                numPersonasInput.value = '';
+                personasContainer.innerHTML = '';
+            }
+        });
+
+        // Generate person fields based on number of people
+        numPersonasInput.addEventListener('change', () => {
+            const numPersonas = parseInt(numPersonasInput.value);
+            personasContainer.innerHTML = '';
+
+            for (let i = 0; i < numPersonas; i++) {
+                const personDiv = document.createElement('div');
+                personDiv.className = 'persona-details';
+                personDiv.innerHTML = `
+                    <h4>Persona ${i + 1}</h4>
+                    <div class="nombre-container">
+                        <input type="text" name="nombre_${i}" placeholder="Nombre completo" required>
+                        <div class="kid-checkbox">
+                            <input type="checkbox" id="es_nino_${i}" name="es_nino_${i}">
+                            <label for="es_nino_${i}">¿Es niño/a?</label>
+                        </div>
+                    </div>
+                    <div class="menu-container" id="menu_container_${i}">
+                        <label for="preferencias_${i}">Preferencias alimentarias:</label>
+                        <textarea name="preferencias_${i}" rows="2" placeholder="Alergias, intolerancias, etc."></textarea>
+                    </div>
+                `;
+
+                // Add child menu selection
+                const checkbox = personDiv.querySelector(`#es_nino_${i}`);
+                const menuContainer = personDiv.querySelector(`#menu_container_${i}`);
+                
+                checkbox.addEventListener('change', () => {
+                    if (checkbox.checked) {
+                        const menuSelect = document.createElement('div');
+                        menuSelect.className = 'menu-nino';
+                        menuSelect.innerHTML = `
+                            <label for="menu_nino_${i}">Menú:</label>
+                            <select name="menu_nino_${i}" required>
+                                <option value="">Seleccionar menú</option>
+                                <option value="junior">Menú Junior (12-16)</option>
+                                <option value="infantil">Menú Infantil (2-12)</option>
+                            </select>
+                        `;
+                        menuContainer.appendChild(menuSelect);
+                    } else {
+                        const menuNino = menuContainer.querySelector('.menu-nino');
+                        if (menuNino) {
+                            menuContainer.removeChild(menuNino);
+                        }
+                    }
+                });
+
+                personasContainer.appendChild(personDiv);
+            }
         });
 
         // Handle form submission
